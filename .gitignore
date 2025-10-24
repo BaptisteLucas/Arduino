@@ -1,0 +1,19 @@
+# Fichiers de compilation Arduino
+*.elf
+*.hex
+*.o
+*.a
+*.bin
+
+# Dossiers générés par l'IDE Arduino
+.build/
+.cache/
+
+# Fichiers de configuration VSCode
+.vscode/
+
+# Fichiers système Windows
+Thumbs.db
+
+# Dossier des bibliothèques locales (si tu les gères manuellement)
+lib/

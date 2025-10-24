@@ -13,58 +13,37 @@ void setup() {
 }
 
 // define variables
-int redValue;
-int greenValue;
-int blueValue;
+int redValue = 255;
+int greenValue = 0;
+int blueValue = 0;
+
+/**
+ * Fonction pour faire un fondu entre deux couleurs.
+ * @param decreasingColor: Pointeur vers la variable de la couleur à diminuer.
+ * @param increasingColor: Pointeur vers la variable de la couleur à augmenter.
+ * @param decreasingPin: Broche de la couleur à diminuer.
+ * @param increasingPin: Broche de la couleur à augmenter.
+ */
+void fadeBetweenColors(int *decreasingColor, int *increasingColor, int decreasingPin, int increasingPin) {
+  for (int i = 0; i < 255; i += 1) {
+    *decreasingColor -= 1;
+    *increasingColor += 1;
+    analogWrite(decreasingPin, *decreasingColor);
+    analogWrite(increasingPin, *increasingColor);
+    delay(delayTime);
+  }
+}
 
 // main loop
 void loop()
 {
+  // Fondu du rouge vers le vert
+  fadeBetweenColors(&redValue, &greenValue, RED, GREEN);
 
-redValue = 255; // choose a value between 1 and 255 to change the color.
-greenValue = 0;
-blueValue = 0;
+  // Fondu du vert vers le bleu
+  fadeBetweenColors(&greenValue, &blueValue, GREEN, BLUE);
 
-// this is unnecessary as we've either turned on RED in SETUP
-// or in the previous loop ... regardless, this turns RED off
-// analogWrite(RED, 0);
-// delay(1000);
-
-for(int i = 0; i < 255; i += 1) // fades out red bring green full when i=255
-{
-redValue -= 1;
-greenValue += 1;
-// The following was reversed, counting in the wrong directions
-// analogWrite(RED, 255 - redValue);
-// analogWrite(GREEN, 255 - greenValue);
-analogWrite(RED, redValue);
-analogWrite(GREEN, greenValue);
-delay(delayTime);
-}
-
-for(int i = 0; i < 255; i += 1) // fades out green bring blue full when i=255
-{
-greenValue -= 1;
-blueValue += 1;
-// The following was reversed, counting in the wrong directions
-// analogWrite(GREEN, 255 - greenValue);
-// analogWrite(BLUE, 255 - blueValue);
-analogWrite(GREEN, greenValue);
-analogWrite(BLUE, blueValue);
-delay(delayTime);
-}
-
-for(int i = 0; i < 255; i += 1) // fades out blue bring red full when i=255
-{
-// The following code has been rearranged to match the other two similar sections
-blueValue -= 1;
-redValue += 1;
-// The following was reversed, counting in the wrong directions
-// analogWrite(BLUE, 255 - blueValue);
-// analogWrite(RED, 255 - redValue);
-analogWrite(BLUE, blueValue);
-analogWrite(RED, redValue);
-delay(delayTime);
-}
+  // Fondu du bleu vers le rouge
+  fadeBetweenColors(&blueValue, &redValue, BLUE, RED);
 }
 

@@ -1,0 +1,6 @@
+#include "lib/I2Cdev/I2Cdev.cpp"
+#include "lib/MPU6050/MPU6050.cpp"
+//#include "lib/MPU6050/MPU6050_6Axis_MotionApps20.cpp"
+//#include "lib/MPU6050/MPU6050_9Axis_MotionApps41.cpp"
+#include "lib/MPU6050/MPU6050_6Axis_MotionApps612.cpp"
+//#include "lib/MPU6050/MPU6050_6Axis_MotionApps20.cpp"

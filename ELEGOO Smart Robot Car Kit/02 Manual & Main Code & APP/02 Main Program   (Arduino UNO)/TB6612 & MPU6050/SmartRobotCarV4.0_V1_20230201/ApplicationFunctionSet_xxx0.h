@@ -103,6 +103,9 @@ public:
 public:
   uint8_t CMD_is_MotorSpeed_L; //motor
   uint8_t CMD_is_MotorSpeed_R;
+private:
+  uint8_t MotorSpeed_L; //instantaneous speed
+  uint8_t MotorSpeed_R;
 
 public:
   uint8_t CMD_is_LightingSequence; //Lighting (Left, front, right, back and center)

@@ -1318,11 +1318,27 @@ void ApplicationFunctionSet::CMD_MotorControlSpeed_xxx0(void)
     if (CMD_is_MotorSpeed_L == 0 && CMD_is_MotorSpeed_R == 0)
     {
       ApplicationFunctionSet_SmartRobotCarMotionControl(stop_it, 0);
+      MotorSpeed_L = 0;
+      MotorSpeed_R = 0;
     }
     else
     {
-      AppMotor.DeviceDriverSet_Motor_control(/*direction_A*/ direction_just, /*speed_A*/ CMD_is_MotorSpeed_L,
-                                             /*direction_B*/ direction_just, /*speed_B*/ CMD_is_MotorSpeed_R,
+      if (CMD_is_MotorSpeed_L  >= 0)
+      {
+        if (MotorSpeed_L < CMD_is_MotorSpeed_L)
+        {
+          MotorSpeed_L++;
+        }
+      }
+      else
+      {
+        if (MotorSpeed_L > CMD_is_MotorSpeed_L)
+        {
+          MotorSpeed_L--;
+        }
+      }
+      AppMotor.DeviceDriverSet_Motor_control(/*direction_A*/ direction_just, /*speed_A*/ MotorSpeed_L,
+                                             /*direction_B*/ direction_just, /*speed_B*/ MotorSpeed_R,
                                              /*controlED*/ control_enable); //Motor control
     }
   }

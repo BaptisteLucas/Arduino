@@ -732,7 +732,7 @@ void ApplicationFunctionSet::ApplicationFunctionSet_Follow(void)
       return;
     }
     AppULTRASONIC.DeviceDriverSet_ULTRASONIC_Get(&ULTRASONIC_Get /*out*/);
-    if (false == function_xxx(ULTRASONIC_Get, 0, 20)) //There is no obstacle 20 cm ahead?
+    if (false == function_xxx(ULTRASONIC_Get, 20, 100)) //There is no obstacle 20 cm ahead?
     {
       ApplicationFunctionSet_SmartRobotCarMotionControl(stop_it, 0);
       static unsigned long time_Servo = 0;
@@ -790,22 +790,18 @@ void ApplicationFunctionSet::ApplicationFunctionSet_Follow(void)
     {
       OneCycle = 1;
       timestamp = 1;
-      if ((Position_Servo == 1))
+      if ((Position_Servo == 1  || Position_Servo == 3))
       { /*Move forward*/
-        ApplicationFunctionSet_SmartRobotCarMotionControl(Forward, 100);
+        if (false == function_xxx(ULTRASONIC_Get, 0, 20)) //There is no obstacle 20 cm ahead?
+          ApplicationFunctionSet_SmartRobotCarMotionControl(Forward, 100);
       }
       else if ((Position_Servo == 2))
       { /*Turn right*/
-        ApplicationFunctionSet_SmartRobotCarMotionControl(Right, 150);
-      }
-      else if ((Position_Servo == 3))
-      {
-        /*Move forward*/
-        ApplicationFunctionSet_SmartRobotCarMotionControl(Forward, 100);
+        ApplicationFunctionSet_SmartRobotCarMotionControl(Right, 50);
       }
       else if ((Position_Servo == 4))
       { /*Turn left*/
-        ApplicationFunctionSet_SmartRobotCarMotionControl(Left, 150);
+        ApplicationFunctionSet_SmartRobotCarMotionControl(Left, 50);
       }
     }
   }

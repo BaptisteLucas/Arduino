@@ -7,7 +7,7 @@
  * @FilePath: 
  */
 #include <avr/wdt.h>
-//#include <hardwareSerial.h>
+#include <hardwareSerial.h>
 #include <stdio.h>
 #include <string.h>
 #include "ApplicationFunctionSet_xxx0.h"
@@ -17,7 +17,7 @@
 #include "MPU6050_getdata.h"
 
 #define _is_print 1
-#define _Test_print 0
+#define _Test_print 1
 
 ApplicationFunctionSet Application_FunctionSet;
 
@@ -567,9 +567,9 @@ void ApplicationFunctionSet::ApplicationFunctionSet_Tracking(void)
       return;
     }
 
-    // int getAnaloguexxx_L = AppITR20001.DeviceDriverSet_ITR20001_getAnaloguexxx_L();
-    // int getAnaloguexxx_M = AppITR20001.DeviceDriverSet_ITR20001_getAnaloguexxx_M();
-    // int getAnaloguexxx_R = AppITR20001.DeviceDriverSet_ITR20001_getAnaloguexxx_R();
+     int getAnaloguexxx_L = AppITR20001.DeviceDriverSet_ITR20001_getAnaloguexxx_L();
+     int getAnaloguexxx_M = AppITR20001.DeviceDriverSet_ITR20001_getAnaloguexxx_M();
+     int getAnaloguexxx_R = AppITR20001.DeviceDriverSet_ITR20001_getAnaloguexxx_R();
 #if _Test_print
     static unsigned long print_time = 0;
     if (millis() - print_time > 500)

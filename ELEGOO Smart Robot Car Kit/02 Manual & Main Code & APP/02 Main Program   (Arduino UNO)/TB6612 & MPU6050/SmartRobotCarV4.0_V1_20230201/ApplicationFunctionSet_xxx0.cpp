@@ -658,7 +658,7 @@ void ApplicationFunctionSet::ApplicationFunctionSet_Obstacle(void)
     }
 
     AppULTRASONIC.DeviceDriverSet_ULTRASONIC_Get(&get_Distance /*out*/);
-    if (function_xxx(get_Distance, 0, 20))
+    if (function_xxx(get_Distance, 0, 50))
     {
       ApplicationFunctionSet_SmartRobotCarMotionControl(stop_it, 0);
 
@@ -673,10 +673,10 @@ void ApplicationFunctionSet::ApplicationFunctionSet_Obstacle(void)
           ApplicationFunctionSet_SmartRobotCarMotionControl(stop_it, 0);
           if (5 == i)
           {
-            ApplicationFunctionSet_SmartRobotCarMotionControl(Backward, 150);
-            delay_xxx(500);
-            ApplicationFunctionSet_SmartRobotCarMotionControl(Right, 150);
-            delay_xxx(50);
+            ApplicationFunctionSet_SmartRobotCarMotionControl(Backward, 50);
+            delay_xxx(1000);
+            ApplicationFunctionSet_SmartRobotCarMotionControl(Right, 50);
+            delay_xxx(2000);
             first_is = true;
             break;
           }
@@ -687,16 +687,16 @@ void ApplicationFunctionSet::ApplicationFunctionSet_Obstacle(void)
           switch (i)
           {
           case 1:
-            ApplicationFunctionSet_SmartRobotCarMotionControl(Right, 150);
+            ApplicationFunctionSet_SmartRobotCarMotionControl(Right, 50);
             break;
           case 3:
-            ApplicationFunctionSet_SmartRobotCarMotionControl(Forward, 150);
+            ApplicationFunctionSet_SmartRobotCarMotionControl(Forward, 50);
             break;
           case 5:
-            ApplicationFunctionSet_SmartRobotCarMotionControl(Left, 150);
+            ApplicationFunctionSet_SmartRobotCarMotionControl(Left, 50);
             break;
           }
-          delay_xxx(50);
+          delay_xxx(300);
           first_is = true;
           break;
         }

@@ -548,7 +548,7 @@ void ApplicationFunctionSet::ApplicationFunctionSet_RGB(void)
 void ApplicationFunctionSet::ApplicationFunctionSet_Rocker(void)
 {
   if (Application_SmartRobotCarxxx0.Functional_Mode == Rocker_mode)
-  {
+  { 
     ApplicationFunctionSet_SmartRobotCarMotionControl(Application_SmartRobotCarxxx0.Motion_Control /*direction*/, Rocker_CarSpeed /*speed*/);
   }
 }
@@ -1305,6 +1305,24 @@ void ApplicationFunctionSet::CMD_MotorControlSpeed_xxx0(uint8_t is_Speed_L, uint
     }
   }
 }
+void ApplicationFunctionSet::SetSpeed(uint8_t *MotorSpeed,uint8_t SpeedThreshold){
+  if (SpeedThreshold  >= 0)
+  {
+    if (*MotorSpeed < SpeedThreshold)
+    {
+      *MotorSpeed++;
+    }
+  }
+  else
+  {
+    if (*MotorSpeed > SpeedThreshold)
+    {
+      *MotorSpeed--;
+    }
+  }
+}
+
+
 void ApplicationFunctionSet::CMD_MotorControlSpeed_xxx0(void)
 {
   static boolean MotorControl = false;
@@ -1319,20 +1337,8 @@ void ApplicationFunctionSet::CMD_MotorControlSpeed_xxx0(void)
     }
     else
     {
-      if (CMD_is_MotorSpeed_L  >= 0)
-      {
-        if (MotorSpeed_L < CMD_is_MotorSpeed_L)
-        {
-          MotorSpeed_L++;
-        }
-      }
-      else
-      {
-        if (MotorSpeed_L > CMD_is_MotorSpeed_L)
-        {
-          MotorSpeed_L--;
-        }
-      }
+      SetSpeed(&MotorSpeed_L,CMD_is_MotorSpeed_L);
+      SetSpeed(&MotorSpeed_R,CMD_is_MotorSpeed_R);
       AppMotor.DeviceDriverSet_Motor_control(/*direction_A*/ direction_just, /*speed_A*/ MotorSpeed_L,
                                              /*direction_B*/ direction_just, /*speed_B*/ MotorSpeed_R,
                                              /*controlED*/ control_enable); //Motor control

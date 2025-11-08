@@ -55,6 +55,7 @@ public: /*CMD*/
   void CMD_TrajectoryControl_xxx0(void);
 
 private:
+  void SetSpeed(uint8_t *MotorSpeed,uint8_t SpeedThreshold);
   /*Sensor Raw Value*/
   volatile float VoltageData_V;        //Battery Voltage Value
   volatile uint16_t UltrasoundData_mm; //Ultrasonic Sensor Value (mm)

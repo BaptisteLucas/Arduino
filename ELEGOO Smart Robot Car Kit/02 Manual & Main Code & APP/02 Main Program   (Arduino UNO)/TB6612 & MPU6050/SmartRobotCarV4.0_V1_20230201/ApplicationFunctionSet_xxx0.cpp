@@ -586,21 +586,21 @@ void ApplicationFunctionSet::ApplicationFunctionSet_Tracking(void)
     if (function_xxx(TrackingData_M, TrackingDetection_S, TrackingDetection_E))
     {
       /*Achieve straight and uniform speed movement*/
-      ApplicationFunctionSet_SmartRobotCarMotionControl(Forward, 100);
+      ApplicationFunctionSet_SmartRobotCarMotionControl(Forward, 50);
       timestamp = true;
       BlindDetection = true;
     }
     else if (function_xxx(TrackingData_R, TrackingDetection_S, TrackingDetection_E))
     {
       /*Turn right*/
-      ApplicationFunctionSet_SmartRobotCarMotionControl(Right, 100);
+      ApplicationFunctionSet_SmartRobotCarMotionControl(Right, 40);
       timestamp = true;
       BlindDetection = true;
     }
     else if (function_xxx(TrackingData_L, TrackingDetection_S, TrackingDetection_E))
     {
       /*Turn left*/
-      ApplicationFunctionSet_SmartRobotCarMotionControl(Left, 100);
+      ApplicationFunctionSet_SmartRobotCarMotionControl(Left, 40);
       timestamp = true;
       BlindDetection = true;
     }
@@ -613,15 +613,15 @@ void ApplicationFunctionSet::ApplicationFunctionSet_Tracking(void)
         ApplicationFunctionSet_SmartRobotCarMotionControl(stop_it, 0);
       }
       /*Blind Detection*/
-      if ((function_xxx((millis() - MotorRL_time), 0, 200) || function_xxx((millis() - MotorRL_time), 1600, 2000)) && BlindDetection == true)
+      if ((function_xxx((millis() - MotorRL_time), 0, 1000) || function_xxx((millis() - MotorRL_time), 8000, 10000)) && BlindDetection == true)
       {
-        ApplicationFunctionSet_SmartRobotCarMotionControl(Right, 100);
+        ApplicationFunctionSet_SmartRobotCarMotionControl(Right, 40);
       }
-      else if (((function_xxx((millis() - MotorRL_time), 200, 1600))) && BlindDetection == true)
+      else if (((function_xxx((millis() - MotorRL_time), 1000, 8000))) && BlindDetection == true)
       {
-        ApplicationFunctionSet_SmartRobotCarMotionControl(Left, 100);
+        ApplicationFunctionSet_SmartRobotCarMotionControl(Left, 40);
       }
-      else if ((function_xxx((millis() - MotorRL_time), 3000, 3500))) // Blind Detection ...s ?
+      else if ((function_xxx((millis() - MotorRL_time), 15000, 17500))) // Blind Detection ...s ?
       {
         BlindDetection = false;
         ApplicationFunctionSet_SmartRobotCarMotionControl(stop_it, 0);

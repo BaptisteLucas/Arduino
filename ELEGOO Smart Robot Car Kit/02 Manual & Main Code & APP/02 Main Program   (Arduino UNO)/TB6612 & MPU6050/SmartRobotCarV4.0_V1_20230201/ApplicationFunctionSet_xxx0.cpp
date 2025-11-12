@@ -593,14 +593,14 @@ void ApplicationFunctionSet::ApplicationFunctionSet_Tracking(void)
     else if (function_xxx(TrackingData_R, TrackingDetection_S, TrackingDetection_E))
     {
       /*Turn right*/
-      ApplicationFunctionSet_SmartRobotCarMotionControl(Right, 40);
+      ApplicationFunctionSet_SmartRobotCarMotionControl(Right, 50);
       timestamp = true;
       BlindDetection = true;
     }
     else if (function_xxx(TrackingData_L, TrackingDetection_S, TrackingDetection_E))
     {
       /*Turn left*/
-      ApplicationFunctionSet_SmartRobotCarMotionControl(Left, 40);
+      ApplicationFunctionSet_SmartRobotCarMotionControl(Left, 50);
       timestamp = true;
       BlindDetection = true;
     }
@@ -615,11 +615,11 @@ void ApplicationFunctionSet::ApplicationFunctionSet_Tracking(void)
       /*Blind Detection*/
       if ((function_xxx((millis() - MotorRL_time), 0, 1000) || function_xxx((millis() - MotorRL_time), 8000, 10000)) && BlindDetection == true)
       {
-        ApplicationFunctionSet_SmartRobotCarMotionControl(Right, 40);
+        ApplicationFunctionSet_SmartRobotCarMotionControl(Right, 50);
       }
       else if (((function_xxx((millis() - MotorRL_time), 1000, 8000))) && BlindDetection == true)
       {
-        ApplicationFunctionSet_SmartRobotCarMotionControl(Left, 40);
+        ApplicationFunctionSet_SmartRobotCarMotionControl(Left, 50);
       }
       else if ((function_xxx((millis() - MotorRL_time), 15000, 17500))) // Blind Detection ...s ?
       {

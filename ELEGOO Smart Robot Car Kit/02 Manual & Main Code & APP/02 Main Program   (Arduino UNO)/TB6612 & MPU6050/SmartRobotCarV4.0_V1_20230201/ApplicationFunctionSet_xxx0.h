@@ -55,6 +55,7 @@ public: /*CMD*/
   void CMD_TrajectoryControl_xxx0(void);
 
 private:
+  void SetSpeed(uint8_t *MotorSpeed,uint8_t SpeedThreshold);
   /*Sensor Raw Value*/
   volatile float VoltageData_V;        //Battery Voltage Value
   volatile uint16_t UltrasoundData_mm; //Ultrasonic Sensor Value (mm)
@@ -77,7 +78,7 @@ public:
   const uint8_t ObstacleDetection = 20;
 
   String CommandSerialNumber;
-  uint8_t Rocker_CarSpeed = 250;
+  uint8_t Rocker_CarSpeed = 100;
   uint8_t Rocker_temp;
 
 public:
@@ -103,6 +104,9 @@ public:
 public:
   uint8_t CMD_is_MotorSpeed_L; //motor
   uint8_t CMD_is_MotorSpeed_R;
+private:
+  uint8_t MotorSpeed_L; //instantaneous speed
+  uint8_t MotorSpeed_R;
 
 public:
   uint8_t CMD_is_LightingSequence; //Lighting (Left, front, right, back and center)

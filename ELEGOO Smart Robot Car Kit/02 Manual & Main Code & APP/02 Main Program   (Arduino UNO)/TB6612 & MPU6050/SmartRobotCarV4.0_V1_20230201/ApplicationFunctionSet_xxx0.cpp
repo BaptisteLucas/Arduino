@@ -7,7 +7,7 @@
  * @FilePath: 
  */
 #include <avr/wdt.h>
-//#include <hardwareSerial.h>
+#include <hardwareSerial.h>
 #include <stdio.h>
 #include <string.h>
 #include "ApplicationFunctionSet_xxx0.h"
@@ -17,7 +17,7 @@
 #include "MPU6050_getdata.h"
 
 #define _is_print 1
-#define _Test_print 0
+#define _Test_print 1
 
 ApplicationFunctionSet Application_FunctionSet;
 
@@ -548,7 +548,7 @@ void ApplicationFunctionSet::ApplicationFunctionSet_RGB(void)
 void ApplicationFunctionSet::ApplicationFunctionSet_Rocker(void)
 {
   if (Application_SmartRobotCarxxx0.Functional_Mode == Rocker_mode)
-  {
+  { 
     ApplicationFunctionSet_SmartRobotCarMotionControl(Application_SmartRobotCarxxx0.Motion_Control /*direction*/, Rocker_CarSpeed /*speed*/);
   }
 }
@@ -567,9 +567,9 @@ void ApplicationFunctionSet::ApplicationFunctionSet_Tracking(void)
       return;
     }
 
-    // int getAnaloguexxx_L = AppITR20001.DeviceDriverSet_ITR20001_getAnaloguexxx_L();
-    // int getAnaloguexxx_M = AppITR20001.DeviceDriverSet_ITR20001_getAnaloguexxx_M();
-    // int getAnaloguexxx_R = AppITR20001.DeviceDriverSet_ITR20001_getAnaloguexxx_R();
+     int getAnaloguexxx_L = AppITR20001.DeviceDriverSet_ITR20001_getAnaloguexxx_L();
+     int getAnaloguexxx_M = AppITR20001.DeviceDriverSet_ITR20001_getAnaloguexxx_M();
+     int getAnaloguexxx_R = AppITR20001.DeviceDriverSet_ITR20001_getAnaloguexxx_R();
 #if _Test_print
     static unsigned long print_time = 0;
     if (millis() - print_time > 500)
@@ -586,21 +586,21 @@ void ApplicationFunctionSet::ApplicationFunctionSet_Tracking(void)
     if (function_xxx(TrackingData_M, TrackingDetection_S, TrackingDetection_E))
     {
       /*Achieve straight and uniform speed movement*/
-      ApplicationFunctionSet_SmartRobotCarMotionControl(Forward, 100);
+      ApplicationFunctionSet_SmartRobotCarMotionControl(Forward, 50);
       timestamp = true;
       BlindDetection = true;
     }
     else if (function_xxx(TrackingData_R, TrackingDetection_S, TrackingDetection_E))
     {
       /*Turn right*/
-      ApplicationFunctionSet_SmartRobotCarMotionControl(Right, 100);
+      ApplicationFunctionSet_SmartRobotCarMotionControl(Right, 50);
       timestamp = true;
       BlindDetection = true;
     }
     else if (function_xxx(TrackingData_L, TrackingDetection_S, TrackingDetection_E))
     {
       /*Turn left*/
-      ApplicationFunctionSet_SmartRobotCarMotionControl(Left, 100);
+      ApplicationFunctionSet_SmartRobotCarMotionControl(Left, 50);
       timestamp = true;
       BlindDetection = true;
     }
@@ -613,15 +613,15 @@ void ApplicationFunctionSet::ApplicationFunctionSet_Tracking(void)
         ApplicationFunctionSet_SmartRobotCarMotionControl(stop_it, 0);
       }
       /*Blind Detection*/
-      if ((function_xxx((millis() - MotorRL_time), 0, 200) || function_xxx((millis() - MotorRL_time), 1600, 2000)) && BlindDetection == true)
+      if ((function_xxx((millis() - MotorRL_time), 0, 1000) || function_xxx((millis() - MotorRL_time), 8000, 10000)) && BlindDetection == true)
       {
-        ApplicationFunctionSet_SmartRobotCarMotionControl(Right, 100);
+        ApplicationFunctionSet_SmartRobotCarMotionControl(Right, 50);
       }
-      else if (((function_xxx((millis() - MotorRL_time), 200, 1600))) && BlindDetection == true)
+      else if (((function_xxx((millis() - MotorRL_time), 1000, 8000))) && BlindDetection == true)
       {
-        ApplicationFunctionSet_SmartRobotCarMotionControl(Left, 100);
+        ApplicationFunctionSet_SmartRobotCarMotionControl(Left, 50);
       }
-      else if ((function_xxx((millis() - MotorRL_time), 3000, 3500))) // Blind Detection ...s ?
+      else if ((function_xxx((millis() - MotorRL_time), 15000, 17500))) // Blind Detection ...s ?
       {
         BlindDetection = false;
         ApplicationFunctionSet_SmartRobotCarMotionControl(stop_it, 0);
@@ -658,7 +658,7 @@ void ApplicationFunctionSet::ApplicationFunctionSet_Obstacle(void)
     }
 
     AppULTRASONIC.DeviceDriverSet_ULTRASONIC_Get(&get_Distance /*out*/);
-    if (function_xxx(get_Distance, 0, 20))
+    if (function_xxx(get_Distance, 0, 50))
     {
       ApplicationFunctionSet_SmartRobotCarMotionControl(stop_it, 0);
 
@@ -673,10 +673,10 @@ void ApplicationFunctionSet::ApplicationFunctionSet_Obstacle(void)
           ApplicationFunctionSet_SmartRobotCarMotionControl(stop_it, 0);
           if (5 == i)
           {
-            ApplicationFunctionSet_SmartRobotCarMotionControl(Backward, 150);
-            delay_xxx(500);
-            ApplicationFunctionSet_SmartRobotCarMotionControl(Right, 150);
-            delay_xxx(50);
+            ApplicationFunctionSet_SmartRobotCarMotionControl(Backward, 50);
+            delay_xxx(1000);
+            ApplicationFunctionSet_SmartRobotCarMotionControl(Right, 50);
+            delay_xxx(2000);
             first_is = true;
             break;
           }
@@ -687,16 +687,16 @@ void ApplicationFunctionSet::ApplicationFunctionSet_Obstacle(void)
           switch (i)
           {
           case 1:
-            ApplicationFunctionSet_SmartRobotCarMotionControl(Right, 150);
+            ApplicationFunctionSet_SmartRobotCarMotionControl(Right, 50);
             break;
           case 3:
-            ApplicationFunctionSet_SmartRobotCarMotionControl(Forward, 150);
+            ApplicationFunctionSet_SmartRobotCarMotionControl(Forward, 50);
             break;
           case 5:
-            ApplicationFunctionSet_SmartRobotCarMotionControl(Left, 150);
+            ApplicationFunctionSet_SmartRobotCarMotionControl(Left, 50);
             break;
           }
-          delay_xxx(50);
+          delay_xxx(300);
           first_is = true;
           break;
         }
@@ -704,7 +704,7 @@ void ApplicationFunctionSet::ApplicationFunctionSet_Obstacle(void)
     }
     else //if (function_xxx(get_Distance, 20, 50))
     {
-      ApplicationFunctionSet_SmartRobotCarMotionControl(Forward, 150);
+      ApplicationFunctionSet_SmartRobotCarMotionControl(Forward, 100);
     }
   }
   else
@@ -732,7 +732,8 @@ void ApplicationFunctionSet::ApplicationFunctionSet_Follow(void)
       return;
     }
     AppULTRASONIC.DeviceDriverSet_ULTRASONIC_Get(&ULTRASONIC_Get /*out*/);
-    if (false == function_xxx(ULTRASONIC_Get, 0, 20)) //There is no obstacle 20 cm ahead?
+
+    if (false == function_xxx(ULTRASONIC_Get, 0, 100)) //There is no obstacle 100 cm ahead?
     {
       ApplicationFunctionSet_SmartRobotCarMotionControl(stop_it, 0);
       static unsigned long time_Servo = 0;
@@ -790,22 +791,18 @@ void ApplicationFunctionSet::ApplicationFunctionSet_Follow(void)
     {
       OneCycle = 1;
       timestamp = 1;
-      if ((Position_Servo == 1))
+      if ((Position_Servo == 1  || Position_Servo == 3))
       { /*Move forward*/
-        ApplicationFunctionSet_SmartRobotCarMotionControl(Forward, 100);
+        if (false == function_xxx(ULTRASONIC_Get, 0, 20)) //There is no obstacle 20 cm ahead?
+          ApplicationFunctionSet_SmartRobotCarMotionControl(Forward, 100);
       }
       else if ((Position_Servo == 2))
       { /*Turn right*/
-        ApplicationFunctionSet_SmartRobotCarMotionControl(Right, 150);
-      }
-      else if ((Position_Servo == 3))
-      {
-        /*Move forward*/
-        ApplicationFunctionSet_SmartRobotCarMotionControl(Forward, 100);
+        ApplicationFunctionSet_SmartRobotCarMotionControl(Right, 50);
       }
       else if ((Position_Servo == 4))
       { /*Turn left*/
-        ApplicationFunctionSet_SmartRobotCarMotionControl(Left, 150);
+        ApplicationFunctionSet_SmartRobotCarMotionControl(Left, 50);
       }
     }
   }
@@ -1309,6 +1306,24 @@ void ApplicationFunctionSet::CMD_MotorControlSpeed_xxx0(uint8_t is_Speed_L, uint
     }
   }
 }
+void ApplicationFunctionSet::SetSpeed(uint8_t *MotorSpeed,uint8_t SpeedThreshold){
+  if (SpeedThreshold  >= 0)
+  {
+    if (*MotorSpeed < SpeedThreshold)
+    {
+      *MotorSpeed++;
+    }
+  }
+  else
+  {
+    if (*MotorSpeed > SpeedThreshold)
+    {
+      *MotorSpeed--;
+    }
+  }
+}
+
+
 void ApplicationFunctionSet::CMD_MotorControlSpeed_xxx0(void)
 {
   static boolean MotorControl = false;
@@ -1318,11 +1333,15 @@ void ApplicationFunctionSet::CMD_MotorControlSpeed_xxx0(void)
     if (CMD_is_MotorSpeed_L == 0 && CMD_is_MotorSpeed_R == 0)
     {
       ApplicationFunctionSet_SmartRobotCarMotionControl(stop_it, 0);
+      MotorSpeed_L = 0;
+      MotorSpeed_R = 0;
     }
     else
     {
-      AppMotor.DeviceDriverSet_Motor_control(/*direction_A*/ direction_just, /*speed_A*/ CMD_is_MotorSpeed_L,
-                                             /*direction_B*/ direction_just, /*speed_B*/ CMD_is_MotorSpeed_R,
+      SetSpeed(&MotorSpeed_L,CMD_is_MotorSpeed_L);
+      SetSpeed(&MotorSpeed_R,CMD_is_MotorSpeed_R);
+      AppMotor.DeviceDriverSet_Motor_control(/*direction_A*/ direction_just, /*speed_A*/ MotorSpeed_L,
+                                             /*direction_B*/ direction_just, /*speed_B*/ MotorSpeed_R,
                                              /*controlED*/ control_enable); //Motor control
     }
   }

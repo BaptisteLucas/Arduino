@@ -39,4 +39,5 @@ void loop()
   Application_FunctionSet.CMD_LightingControlTimeLimit_xxx0();
   Application_FunctionSet.CMD_LightingControlNoTimeLimit_xxx0();
   Application_FunctionSet.CMD_ClearAllFunctions_xxx0();
+  delay(100);
 }

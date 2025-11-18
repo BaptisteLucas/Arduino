@@ -7,13 +7,14 @@
 
 int PWMRate = 25;       // Rapport cycle de charge PWM (0-100%)
 float seuilCharge = 2.5; // Seuil de tension (en volts) où la charge est terminée
+bool isCharging = false; // État de charge du condensateur
 
 void setup() {
   pinMode(CMD_DECH, OUTPUT);  // Configure la broche de décharge en sortie
   digitalWrite(CMD_DECH, LOW); // Désactive la décharge
 
   pinMode(PWM_OUT, OUTPUT);   // Configure la broche PWM en sortie
-  analogWrite(PWM_OUT, PWMRate);  // Charge le condensateur avec le rapport cyclique défini
+  analogWrite(PWM_OUT, 0);  // Charge le condensateur avec le rapport cyclique défini
 
   Serial.begin(9600);         // Initialisation du port série
 }
@@ -31,7 +32,12 @@ float voltageReader(int pin) {
 // main loop
 void loop() {
   
-  digitalWrite(CMD_DECH, LOW); // Désactive la décharge
+  if(!isCharging){
+    // Si on n'est pas en charge
+    digitalWrite(CMD_DECH, LOW); // Désactive la décharge
+    analogWrite(PWM_OUT, PWMRate);  // Charge le condensateur avec le rapport cyclique défini
+    isCharging = true;
+  }
     
   // Lecture de la tension du condensateur en volts
   float tension = voltageReader(CONDO_INPUT);
